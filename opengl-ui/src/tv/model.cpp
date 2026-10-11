@@ -1468,6 +1468,9 @@ void Model::run_refresh()
                                        refresh_http_.referrer.c_str()};
     headers.extra_headers = refresh_http_.extra_headers.c_str();
     headers.credential_origin = refresh_http_.url.c_str();
+    static constexpr char kXtreamTestUserAgent[] = "Mozilla/5.0";
+    if (refresh_source_ == iptv::SourceKind::Xtream)
+        headers.user_agent = kXtreamTestUserAgent;
     const auto stopping = [this]() { return stop_requested_.load(std::memory_order_acquire); };
     if (pending_network_ == iptv::http::Status::ok && !stopping())
     {
